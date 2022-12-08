@@ -14,7 +14,7 @@
       {% if title %}
         {{ title }}
       {% else %}
-        Электронная библиотека
+        Здравоохранение
       {% endif %}
     </title>
   </head>
@@ -23,7 +23,7 @@
 
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand" href="{{ url_for('index') }}">Электронная библиотека</a>
+      <a class="navbar-brand" href="{{ url_for('index') }}">Здравоохранение</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -31,7 +31,7 @@
   <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item {% if request.endpoint == 'index' %} active {% endif %}">
-        <a class="nav-link" href=" {{ url_for('index') }}">Книги</a>
+        <a class="nav-link" href=" {{ url_for('index') }}">Пациенты</a>
       </li>
 
       <li class="nav-item {% if request.endpoint == 'users' %} active {% endif %}">
