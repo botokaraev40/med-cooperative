@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1 class="my-5">Просмотр данных книги</h1>
+
+<h2 class="my-5">Книга «{{ book.name }}»</h2>
+
+ <table class="table">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Описание</th>
+                <th>Год</th>
+                <th>Издательство</th>
+                <th>Автор</th>
+                <th>Объем в страницах</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+
+            <tr>
+                <td>{{ book.name }}</td>
+                <td>{{ book.description }}</td>
+                <td> {{ book.year_of_release }}</td>
+                <td> {{ book.publishing }}</td>
+                <td> {{ book.author }}</td>
+                <td> {{ book.volume }}</td>
+
+
+
+
+            </tr>
+
+
+
+
+
+
+        </tbody>
+    </table>
+
+
+
+    <h2 class="my-5">Рецензии</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Отчество</th>
+                <th>Оценка</th>
+                <th>Текст рецензии</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for review in reviews %}
+            <tr>
+                <td>{{ review.last_name }}</td>
+                <td>{{ review.first_name }}</td>
+                <td> {{ review.middle_name or '' }}</td>
+                <td> {{ review.estimation }}</td>
+                <td> {{ review.letter }}</td>
+
+
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+
+<h2 class="my-5">Жанры</h2>
+
+<table class="table">
+        <thead>
+            <tr>
+                <th>Жанр(ы)</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for genre1 in genre %}
+            <tr>
+                <td>{{ genre1.name }}</td>
+
+
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+
+
+
+
+{% endblock %}

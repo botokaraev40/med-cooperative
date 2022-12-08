@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h1 class="my-5">Книги</h1>
+<form action="{{ url }}" method="GET">
+    <div class="form-group row">
+        <label for="find_name" class="col-form-label col-md-2">Название</label>
+        <div class="col-md-6">
+            <input class="form-control" type="text" name="find_name" id="find_name" >
+        </div>
+    </div>
+
+
+    <div class="form-group row mt-3">
+        <label for="find_genre" class="col-form-label col-md-2">Жанр</label>
+        <div class="col-md-6">
+            <input class="form-control" type="text" name="find_genre" id="find_genre" >
+        </div>
+    </div>
+
+    <div class="form-group row mt-3">
+        <label for="find_year" class="col-form-label col-md-2">Год</label>
+        <div class="col-md-6">
+            <input class="form-control" type="year" name="find_year" id="find_year" >
+        </div>
+
+    </div>
+
+    <div class="form-group row mt-3">
+        <label for="find_author" class="col-form-label col-md-2">Автор</label>
+        <div class="col-md-6">
+            <input class="form-control" type="text" name="find_author" id="find_author" >
+        </div>
+    </div>
+    <div class="form-group row mt-3">
+        <label for="find_volume" class="col-form-label col-md-2">Объем в страницах</label>
+        <div class="col-md-6">
+            <input class="form-control" type="number" name="find_volume" id="find_volume">
+        </div>
+    </div>
+
+
+
+
+
+    <div class="form-group mt-3">
+        <input type="submit" class="btn btn-primary" value="Искать">
+
+    </div>
+
+</form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Жанр(ы)</th>
+                <th>Год</th>
+                <th>Средняя оценка</th>
+                <th>Количество рецензий</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for book in books %}
+            <tr>
+                <td class="user-name">{{ book.name }}</td>
+                <td>{{ book.genre_name }}</td>
+                <td>{{ book.year_of_release }}</td>
+                <td>{{ book.estimation or '' }}</td>
+                <td>{{ book.counters }}</td>
+
+                <td>
+                    <div class="btn-group">
+                        <a class ="btn btn-primary" href="{{ url_for('show', book_id=book.id) }}">Просмотр</a>
+                    </div>
+                </td>
+
+                <td>
+                    {% if current_user.is_authenticated %}
+                    {% if current_user.can('edit', record=user) %}
+                    <div class="btn-group">
+
+                        <a class="btn btn-secondary" href="{{ url_for('edit', book_id=book.id) }}">Редактировать</a>
+
+                    </div>
+                    {% endif %}
+                    {% if current_user.can('delete', record=user) %}
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-user-modal" data-url="{{ url_for('delete', book_id=book.id) }}">
+                            Удалить
+                        </button>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+
+
+
+        </tbody>
+    </table>
+
+
+
+
+<table class="table">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Жанр(ы)</th>
+                <th>Год</th>
+                <th>Объем</th>
+                <th>Автор</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for find in finds %}
+
+
+            <tr>
+                <td>{{ find.name }}</td>
+                <td>{{ find.genre }}</td>
+                <td>{{ find.year }}</td>
+                <td>{{ find.volume}}</td>
+                <td>{{ find.author }}</td>
+
+
+
+            </tr>
+
+            {% endfor %}
+
+
+
+        </tbody>
+    </table>
+
+{% if current_user.is_authenticated and current_user.can('new') %}
+    <a class="btn btn-primary" href="{{ url_for('new') }}">Добавить книгу</a>
+    {% endif %}
+
+<div class="modal" tabindex="-1" role="dialog" id="delete-user-modal">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Удаление записи</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <p>Вы уверены, что хотите удалить пользователя <span id="user-name"></span>?</p>
+          <form action="" method="POST" class="d-none">
+              <input id="delete-btn" type="submit">
+          </form>
+      </div>
+      <div class="modal-footer">
+        <label for="delete-btn" class="btn btn-danger mb-0 cursor-pointer">Да</label>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Нет</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
